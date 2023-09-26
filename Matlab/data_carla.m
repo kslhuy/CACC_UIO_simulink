@@ -12,10 +12,8 @@ controlfile = fopen('control.txt', 'r');
 % % headerLine = fgetl(fid);
 
 % Use textscan to read the data
-% data = textscan(fid, 't : %f , est : %f , reel : %f');
 data = textscan(fid, 't:%f fc:%f , %f psi1:%f , %f psi2:%f , %f psi3:%f , %f');
-% control_data = textscan(controlfile,'control : %f , a_p : %f , a_f : %f');
-control_data = textscan(controlfile,'control : %f , a_p : %f %f');
+control_data = textscan(controlfile,'control : %f,a_filt_atk : %f,a_filt : %f,a_raw : %f');
 
 % Close the file
 fclose(fid);
@@ -28,37 +26,53 @@ control_data = cell2mat(control_data);
 t = data(:, 1);
 est = data(:, 2);
 reel = data(:, 3);
+% 
+% fc = 10; % Cut off frequency
+% fs = 30; % Sampling rate
+% 
+% [b,a] = butter(6,fc/(fs/2)); % Butterworth filter of order 6
+% x = filter(b,a,control_data(:,3)); % Will be the filtered signal
+% 
+% % Compute the FFT of the signal
+% fft_signal = fft(control_data(:,3));
+% f = linspace(0,fs,length(control_data(:,3)));
+% 
+% 
+% 
+% control_filtred = filter(Hd,control_data(:,3));
+% fft_signal_filted = fft(control_filtred);
+% 
+% % Plot the data
+% figure(5)
+% plot(f, abs(fft_signal));
+% hold on
+% plot(f, abs(fft_signal_filted));
+% 
+% % Plot the data
+% figure(4)
+% plot(t, control_data(:,2), 'b-');
+% hold on
+% plot(t, control_data(:,3), 'g');
+% hold on
+% plot(t, control_filtred, 'r');
+% 
+% 
+% 
 
+% % Plot the data
+figure(5)
+plot(t, control_data(:,3), 'b-');
+hold on
+plot(t, control_data(:,4), 'g');
+grid on;
 
-% Plot the data
+% % Plot the data
 figure(3)
 plot(t, control_data(:,1), 'b-');
 xlabel('Time');
 ylabel('Value');
 title('Control');
 grid on;
-
-
-% Plot the data
-figure(4)
-plot(t, control_data(:,2), 'b-');
-hold on
-plot(t, control_data(:,3), 'g');
-
-xlabel('Time');
-ylabel('Value');
-title('Acc_pre');
-grid on;
-
-% % Plot the data
-% figure(5)
-% plot(t, control_data(:,3), 'b-');
-% xlabel('Time');
-% ylabel('Value');
-% title('Acc_fol');
-% grid on;
-
-
 
 
 %% Results
@@ -128,16 +142,27 @@ figure(2)
 set(gcf,'color','w');
 rgb1 = [0.4660 0.6740 0.1880];
 rgb2 = [0 0.4470 0.7410];
+subplot(2,1,1)
 
-plot(t,reel,'Color',rgb1,'LineWidth',1.5);grid on
+plot(t,reel,'Color',rgb1,'LineWidth',3);grid on
 hold on
-plot(t,est,'b--','LineWidth',1.5);grid on
-xlabel('{Time} ${[sec]}$','Interpreter','LaTeX','Fontsize',12);
-ylabel('$$f_{c}$$','Interpreter','LaTeX','Fontsize',12);
+plot(t,est,'b--','LineWidth',4);grid on
+% ylabel('$$f_{c}$$','Interpreter','LaTeX','Fontsize',12);
 d4 = legend('$$f_{c}$$','${\hat{f}_c}$');
 d4.Interpreter = "latex";
 d4.FontSize = 13;
 d41 = title('Cyber-attack and its estimation');
 d41.Interpreter = "latex";
 d41.FontSize = 10;
+ylim([-30 40]);
+
+
+subplot(2,1,2)
+plot(t, control_data(:,3), 'b-','LineWidth',4);
+hold on 
+plot(t, control_data(:,2), 'r','LineWidth',4);
+xlabel('{Time} ${[sec]}$','Interpreter','LaTeX','Fontsize',20);
+title('Inter-Vehicle Comunication');
+legend('a_{i-1}' ,'\mu_{i-1}');
+grid on
 % ylim([-13 10 ]);

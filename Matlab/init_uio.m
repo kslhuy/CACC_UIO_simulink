@@ -100,12 +100,22 @@ end
 P = sdpvar(nx,nx);
 X = sdpvar(nx,p);
 % a = 0.01;
-alpha = 20;
-LMI = [Az'*P*Az-Az'*X*Ce-Ce'*X'*Az-P,  X*Ce; Ce'*X' , -P ];
-LMI2 = [-alpha*eye(p) X';X -P];
+
+alpha = 0.7;
+% LMI = [Az'*P*Az-Az'*X*Ce-Ce'*X'*Az-P,  X*Ce; Ce'*X' , -P ];
+% LMI2 = [-alpha*eye(p) X';X -P];
+
+LMI = [-alpha*P, Az'*P - Ce'*X';
+        P*Az - X*Ce , -P];
+    
+% LMI = [Az'*P*Az-Az'*X*Ce-Ce'*X'*Az-P,  X*Ce; Ce'*X' , -P ];
+% LMI2 = [-alpha*eye(p) X';X -P];
+
+
+
 pb = [P>=0];
 pb = pb+[LMI<=0];
-pb = pb+[LMI2<=0];
+% pb = pb+[LMI2<=0];
 solvesdp(pb);
 Ps = double(P)
 Xs = double(X)
