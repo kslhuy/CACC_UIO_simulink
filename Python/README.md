@@ -12,7 +12,7 @@ Should check how to run first in CARLA docs !!!!<br>
 You should copy the file to same folder of your CARLA folder : <br>
  - custom_agent.py + custom_controller.py + custom_local_planner.py in the ...\CARLA_0.9.13\WindowsNoEditor\PythonAPI\carla\agents\navigation <br>
  - agent_control.py  in ...\CARLA_0.9.13\WindowsNoEditor\PythonAPI\examples
-
+ - misc.py  in ...\CARLA_0.9.13\WindowsNoEditor\PythonAPI\carla\agents\tools
 
 
 HOW to run : <br>
