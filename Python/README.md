@@ -14,7 +14,7 @@ You should copy the file to same folder of your CARLA folder :
 
 
 
-HOW to run :
+HOW to run : \\
     - Open executable file Carla.exe (or ubuntu)
     - RUN "set SCENARIO_RUNNER_ROOT=D:\PHD\CARLA_0.9.13\scenario_runner" in one terminal
     - RUN : """python scenario_runner.py --scenario FollowLeadingVehicle_1 --reloadWorld""" in the same terminal
