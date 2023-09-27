@@ -1,6 +1,9 @@
 # UIO_CACC
  Estimate Cycber-attack for CACC
 
+You need to dowload a solver for LMI :   https://yalmip.github.io/solver/lmilab/
+
+
 The paper using the results from simulink :<br>
 
 Step 1 : Run file "init_uio.m" first for initalization .<br>
